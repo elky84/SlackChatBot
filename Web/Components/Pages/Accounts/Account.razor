@@ -1,0 +1,99 @@
+@page "/accounts/{accountId?}"
+
+@using System.Collections.ObjectModel
+@using Web.Domain.Account
+@inject NavigationManager NavigationManager
+@inject ModalService ModalService
+@inject IServiceProvider ServiceProvider
+@inject ILogger<Account> Logger
+@inject IConfiguration Configuration
+@inject IJSRuntime JsRuntime
+@inject AccountRepository AccountRepository
+
+<GridCol Span="50">
+    <Space>
+        <SpaceItem>
+            <Search Placeholder="Enter account id"
+                    EnterButton="true"
+                    OnSearch="@(accountId => OnSearchAccount(accountId))"
+                    Value="@AccountId">
+            </Search>
+        </SpaceItem>
+    </Space>
+</GridCol>
+@if (string.IsNullOrWhiteSpace(AccountId))
+{
+    return;
+}
+
+<Space/>
+<div>
+    <Title Level="4">Account Information</Title>
+    <Table TItem="Domain.Account.Account"
+           DataSource="@Accounts"
+           HidePagination="true">
+        <PropertyColumn Property="@(c => c.AccountId)"/>
+        <PropertyColumn Property="@(c => c.AccountUid)"/>
+        <PropertyColumn Title="생성 시간" Property="@(c => c.CreatedAt)" Format="u"/>
+        <PropertyColumn Title="갱신 시간" Property="@(c => c.UpdatedAt)" Format="u"/>
+    </Table>
+    <Space/>
+    @if (Accounts.Any())
+    {
+        <CascadingValue Value="@(this)">
+            <Tabs @bind-ActiveKey="_activeTabKey">
+                <TabPane Tab="캐릭터" Key="chars">
+                    <CharsTab/>
+                </TabPane>
+            </Tabs>
+        </CascadingValue>
+    }
+</div>
+
+@code {
+
+    private string _activeTabKey = "chars";
+
+    [Parameter] public string? AccountId { get; set; }
+
+    private List<Domain.Account.Account> Accounts { get; } = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await Load();
+    }
+
+    private async Task<Domain.Account.Account?> GetAccount()
+    {
+        if (string.IsNullOrEmpty(AccountId))
+            return null;
+
+        return await AccountRepository.Get(AccountId);
+    }
+
+    private async Task Load()
+    {
+        var account = await GetAccount();
+        if (account != null)
+        {
+            Accounts.Clear();
+            Accounts.Add(account);
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        AccountId ??= string.Empty;
+    }
+
+    private async Task OnSearchAccount(string accountId)
+    {
+        NavigationManager.NavigateTo($"/accounts/{accountId}");
+        AccountId = accountId;
+        await Load();
+
+        StateHasChanged();
+    }
+}

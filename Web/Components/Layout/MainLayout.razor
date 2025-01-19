@@ -1,0 +1,89 @@
+@using Web.Components.Http
+@using Web.Components.Pages
+@inherits LayoutComponentBase
+@inject HttpInterceptorService HttpInterceptorService
+@inject NavigationManager NavigationManager
+@inject IWebHostEnvironment HostEnvironment
+@inject NavigationManager Navigation
+
+<div>
+    <ErrorProvider>
+        <Header Class="header-bg">
+            <Tag Color="blue">
+                @HostEnvironment.EnvironmentName
+            </Tag>
+        </Header>
+        <Layout Style="min-height: calc(100vh - 64px);">
+            <Sider Collapsible CollapsedWidth="26">
+                <Menu
+                    Mode="MenuMode.Inline"
+                    Theme="MenuTheme.Dark">
+                    <MenuItem Key="home" Class="@(MenuActiveState("/home"))">
+                        <MenuLink Href="/">Home</MenuLink>
+                    </MenuItem>
+                    <MenuItem Key="accounts" Class="@(MenuActiveState("/accounts"))">
+                        <MenuLink Href="/accounts">Account</MenuLink>
+                    </MenuItem>
+                    <MenuItem Key="test" Class="@(MenuActiveState("/test"))">
+                        <MenuLink Href="/test">Test</MenuLink>
+                    </MenuItem>
+                </Menu>
+            </Sider>
+            <Content>
+                <div style="width: 100%; padding-left: 50px; padding-right: 50px; padding-top: 20px;">
+                    @Body
+                </div>
+                <Footer>
+                    Footer
+                </Footer>
+            </Content>
+        </Layout>
+    </ErrorProvider>
+</div>
+
+@code {
+
+    private string MenuActiveState(string uri)
+    {
+        return Navigation.Uri.Contains(uri) ? "menu-item-custom active" : "menu-item-custom";
+    }
+
+    protected override void OnInitialized()
+    {
+        HttpInterceptorService.RegisterEvent();
+    }
+
+    public void Dispose()
+    {
+        HttpInterceptorService.DisposeEvent();
+    }
+
+}
+
+<style>
+    .header-bg {
+        background-color: #001529 !important;
+    }
+
+    .menu-item-custom {
+        color: #cccccc !important;
+    }
+
+    .menu-item-custom a {
+        color: #cccccc !important;
+    }
+
+    .menu-item-custom:hover {
+        color: #eeeeee !important;
+    }
+
+    .menu-item-custom a:hover {
+        color: #eeeeee !important;
+    }
+
+    .menu-item-custom.active a {
+        color: #adcbe7 !important;
+        font-weight: bold;
+    }
+
+</style>

@@ -1,0 +1,22 @@
+﻿@inherits ErrorBoundary
+@inject ILogger<ErrorProvider> Logger
+@inject ModalService ModalService
+
+@ChildContent
+
+@code {
+
+    protected override async Task OnErrorAsync(Exception exception)
+    {
+        await base.OnErrorAsync(exception);
+        Logger.LogError(exception, "An error occurred in the ErrorBoundary component.");
+
+        await ModalService.ErrorAsync(new ConfirmOptions
+        {
+            Title = exception.Message,
+            Content = exception.ToString(),
+            Style = "width: 80%; max-width: 800px;"
+        });
+    }
+
+}

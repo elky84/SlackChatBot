@@ -1,0 +1,45 @@
+@using Web.Domain.Char
+@using Char = Web.Domain.Char.Char
+@inject IServiceProvider ServiceProvider
+@inject ModalService ModalService
+@inject CharRepository CharRepository
+
+<div>
+    <Table TItem="@Char"
+           DataSource="@Chars.Values"
+           HidePagination="true">
+        <PropertyColumn Property="@(c => c.CharUid)"/>
+        <PropertyColumn Title="캐릭터 ID" Property="@(c => c.CharId)"/>
+        <PropertyColumn Title="레벨" Property="@(c => c.CharLevel)"/>
+        <PropertyColumn Title="경험치" Property="@(c => c.CharExp)"/>
+        <PropertyColumn Title="생성 시간" Property="@(c => c.CreatedAt)" Format="u"/>
+        <ActionColumn Title="Action">
+            <Button Danger OnClick="() => Delete(context)">
+                삭제
+            </Button>
+        </ActionColumn>
+    </Table>
+</div>
+
+@code {
+    [CascadingParameter] public required Account Account { get; set; }
+
+    private Dictionary<string, Char> Chars { get; set; } = [];
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Chars = await CharRepository.GetAll();
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task Delete(Char character)
+    {
+        await CharRepository.Delete(character);
+
+        Chars.Remove(character.CharId);
+        StateHasChanged();
+    }
+
+}
