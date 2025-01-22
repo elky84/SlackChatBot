@@ -6,7 +6,7 @@
         "ASPNETCORE_ENVIRONMENT": "local"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:8005"
+      "applicationUrl": "http://localhost:18005"
     },
     "admin": {
       "commandName": "Project",
@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "local"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5085",
+      "applicationUrl": "http://localhost:18005",
       "nativeDebugging": true
     }
   },
