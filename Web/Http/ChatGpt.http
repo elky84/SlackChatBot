@@ -1,0 +1,7 @@
+﻿### Test
+POST {{gameserver}}/api/ChatGpt/Test
+Content-Type: application/json
+
+{
+  "Message": "송경환이 누군지 알아? 크래프톤 다녀. 별명은 songnoin 송노인임. 노인이란 뜻의 노인 맞아"
+}

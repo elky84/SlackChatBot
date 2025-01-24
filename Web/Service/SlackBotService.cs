@@ -12,7 +12,7 @@ public class SlackBotService(ISlackApiClient slack, ILogger<SlackBotService> log
 
     public async Task Handle(MessageEvent slackEvent)
     {
-        if (string.IsNullOrEmpty(slackEvent.Text))
+        if (string.IsNullOrEmpty(slackEvent.Text) || !string.IsNullOrEmpty(slackEvent.BotId))
             return;
         
         var keyValuePair = slackBotConfig.Keywords.FirstOrDefault(x => slackEvent.Text.Contains(x.Key, StringComparison.OrdinalIgnoreCase));

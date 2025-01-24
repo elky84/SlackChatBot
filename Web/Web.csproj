@@ -13,6 +13,8 @@
 
     <ItemGroup>
         <PackageReference Include="AntDesign" Version="1.0.0" />
+        <PackageReference Include="ChatGPT.Net" Version="2.0.0" />
+        <PackageReference Include="HuggingFace" Version="0.4.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="SlackNet" Version="0.15.4" />
         <PackageReference Include="SlackNet.AspNetCore" Version="0.15.4" />

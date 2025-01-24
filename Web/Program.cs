@@ -9,6 +9,7 @@ using SlackNet.AspNetCore;
 using SlackNet.Events;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
 using Web.Common.Config;
+using Web.Endpoint.ChatGpt;
 using Web.Endpoint.Slack;
 using Web.Service;
 
@@ -23,6 +24,7 @@ builder.Configuration
 
 var slackBotConfig = builder.Configuration.GetSection("SlackBot").Get<SlackBotConfig>();
 var slackSettings = builder.Configuration.GetSection("Slack").Get<SlackSettings>()!;
+var chatGptSettings = builder.Configuration.GetSection("ChatGPT").Get<ChatGptSettings>()!;
 
 builder.Services.AddHealthChecks();
 
@@ -68,6 +70,8 @@ services.AddSingleton<CharRepository>();
 
 if(slackBotConfig != null)
     services.AddSingleton(slackBotConfig);
+
+services.AddSingleton(chatGptSettings);
 
 services.AddAntDesign().AddHttpContextAccessor();
 services.AddHttpClientInterceptor();
@@ -141,6 +145,7 @@ app.MapRazorComponents<App>()
 var api = app.MapGroup("/api");
 
 SlackEndpoint.Map(api);
+ChatGptEndpoint.Map(api);
 
 #endregion api
 
