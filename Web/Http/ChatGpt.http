@@ -1,5 +1,5 @@
 ﻿### Test
-POST {{gameserver}}/api/ChatGpt/Test
+POST {{webserver}}/api/ChatGpt/Test
 Content-Type: application/json
 
 {

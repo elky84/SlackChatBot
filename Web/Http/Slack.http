@@ -1,5 +1,5 @@
 ﻿### Test
-POST {{gameserver}}/api/Slack/Test
+POST {{webserver}}/api/Slack/Test
 Content-Type: application/json
 
 {
