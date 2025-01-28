@@ -1,0 +1,7 @@
+﻿### Test
+POST {{webserver}}/api/Claude/Test
+Content-Type: application/json
+
+{
+  "Message": "한글로 질문해도 됨?"
+}

@@ -10,6 +10,7 @@ using SlackNet.Events;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
 using Web.Common.Config;
 using Web.Endpoint.ChatGpt;
+using Web.Endpoint.Claude;
 using Web.Endpoint.HuggingFace;
 using Web.Endpoint.Slack;
 using Web.Service;
@@ -27,6 +28,7 @@ var slackBotConfig = builder.Configuration.GetSection("SlackBot").Get<SlackBotCo
 var slackSettings = builder.Configuration.GetSection("Slack").Get<SlackSettings>()!;
 var chatGptSettings = builder.Configuration.GetSection("ChatGPT").Get<ChatGptSettings>()!;
 var huggingFaceSettings = builder.Configuration.GetSection("HuggingFace").Get<HuggingFaceSettings>()!;
+var claudeSettings = builder.Configuration.GetSection("Claude").Get<ClaudeSettings>()!;
 
 builder.Services.AddHealthChecks();
 
@@ -75,6 +77,7 @@ if(slackBotConfig != null)
 
 services.AddSingleton(chatGptSettings);
 services.AddSingleton(huggingFaceSettings);
+services.AddSingleton(claudeSettings);
 
 services.AddAntDesign().AddHttpContextAccessor();
 services.AddHttpClientInterceptor();
@@ -150,6 +153,7 @@ var api = app.MapGroup("/api");
 SlackEndpoint.Map(api);
 ChatGptEndpoint.Map(api);
 HuggingFaceEndpoint.Map(api);
+ClaudeEndpoint.Map(api);
 
 #endregion api
 
