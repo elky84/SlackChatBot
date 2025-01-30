@@ -5,8 +5,10 @@ using Web.Domain.Account;
 using Web.Domain.Char;
 using Web.Endpoint;
 using Microsoft.AspNetCore.Components.Server.Circuits;
+using SlackNet;
 using SlackNet.AspNetCore;
 using SlackNet.Events;
+using SlackNet.SocketMode;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
 using Web.Common.Config;
 using Web.Endpoint.ChatGpt;
@@ -159,7 +161,7 @@ ClaudeEndpoint.Map(api);
 
 #region SlackNet
 
-app.UseSlackNet();
+app.UseSlackNet(c => c.UseSocketMode(new SocketModeConnectionOptions()));
 
 #endregion // SlackNet
 

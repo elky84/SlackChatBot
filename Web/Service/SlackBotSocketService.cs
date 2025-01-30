@@ -6,7 +6,9 @@ using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace Web.Service;
 
-public class SlackBotService(ISlackApiClient slack, ILogger<SlackBotService> log, SlackBotConfig slackBotConfig) : IEventHandler<MessageEvent>
+#pragma warning disable CS9113 // Parameter is unread.
+public class SlackBotSocketService(SlackRequestContext slackRequestContext, ISlackApiClient slack, ILogger<SlackBotService> log, SlackBotConfig slackBotConfig) : IEventHandler<MessageEvent>
+#pragma warning restore CS9113 // Parameter is unread.
 {
     private readonly ILogger _log = log;
 
@@ -23,8 +25,7 @@ public class SlackBotService(ISlackApiClient slack, ILogger<SlackBotService> log
             await slack.Chat.PostMessage(new Message
             {
                 Text = keyValuePair.Value,
-                Channel = slackEvent.Channel,
-                ThreadTs = slackEvent.ThreadTs ?? slackEvent.EventTs,
+                Channel = slackEvent.Channel
             });
         }
     }
