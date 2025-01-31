@@ -14,6 +14,9 @@ public class SlackBotService(ISlackApiClient slack, ILogger<SlackBotService> log
     {
         if (string.IsNullOrEmpty(slackEvent.Text) || !string.IsNullOrEmpty(slackEvent.BotId))
             return;
+
+        if (!slackEvent.Text.Contains(slackBotConfig.Name))
+            return;
         
         var keyValuePair = slackBotConfig.Keywords.FirstOrDefault(x => slackEvent.Text.Contains(x.Key, StringComparison.OrdinalIgnoreCase));
         if(!string.IsNullOrEmpty(keyValuePair.Key))
@@ -22,7 +25,7 @@ public class SlackBotService(ISlackApiClient slack, ILogger<SlackBotService> log
             
             await slack.Chat.PostMessage(new Message
             {
-                Text = keyValuePair.Value,
+                Text = slackBotConfig.Catchphrase + keyValuePair.Value,
                 Channel = slackEvent.Channel,
                 ThreadTs = slackEvent.ThreadTs ?? slackEvent.EventTs,
             });
