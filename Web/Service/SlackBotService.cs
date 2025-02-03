@@ -21,11 +21,18 @@ public class SlackBotService(ISlackApiClient slack, ILogger<SlackBotService> log
         var keyValuePair = slackBotConfig.Keywords.FirstOrDefault(x => slackEvent.Text.Contains(x.Key, StringComparison.OrdinalIgnoreCase));
         if(!string.IsNullOrEmpty(keyValuePair.Key))
         {
-            _log.LogInformation("Received ping from {User} in the {Channel} channel", (await slack.Users.Info(slackEvent.User)).Name, (await slack.Conversations.Info(slackEvent.Channel)).Name);
-            
             await slack.Chat.PostMessage(new Message
             {
-                Text = slackBotConfig.Catchphrase + keyValuePair.Value,
+                Text = slackBotConfig.Catchphrase + " " + keyValuePair.Value,
+                Channel = slackEvent.Channel,
+                ThreadTs = slackEvent.ThreadTs ?? slackEvent.EventTs,
+            });
+        }
+        else
+        {
+            await slack.Chat.PostMessage(new Message
+            {
+                Text = slackBotConfig.Catchphrase + " 못알아들었다!",
                 Channel = slackEvent.Channel,
                 ThreadTs = slackEvent.ThreadTs ?? slackEvent.EventTs,
             });
