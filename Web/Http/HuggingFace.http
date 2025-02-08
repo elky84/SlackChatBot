@@ -3,5 +3,5 @@ POST {{webserver}}/api/HuggingFace/Test
 Content-Type: application/json
 
 {
-  "Message": "Hello?"
+  "Message": "테스트"
 }
