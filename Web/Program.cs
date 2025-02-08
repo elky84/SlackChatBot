@@ -14,6 +14,7 @@ using Web.Common.Config;
 using Web.Endpoint.ChatGpt;
 using Web.Endpoint.Claude;
 using Web.Endpoint.HuggingFace;
+using Web.Endpoint.Ollama;
 using Web.Endpoint.Slack;
 using Web.Service;
 
@@ -156,6 +157,7 @@ SlackEndpoint.Map(api);
 ChatGptEndpoint.Map(api);
 HuggingFaceEndpoint.Map(api);
 ClaudeEndpoint.Map(api);
+OllamaEndpoint.Map(api);
 
 #endregion api
 

@@ -1,0 +1,7 @@
+﻿### Test @timeout 60 m
+POST {{webserver}}/api/Ollama/Test
+Content-Type: application/json
+
+{
+  "Message": "배고파"
+}
