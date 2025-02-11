@@ -18,7 +18,7 @@ public static class OllamaTest
         {
             var uri = new Uri("http://localhost:11434");
             Ollama = new OllamaApiClient(uri);
-            Ollama.SelectedModel = "llama3.3";
+            Ollama.SelectedModel = "mistral:7b-instruct-q4_0";
         }
 
         var responseMessage = "";
