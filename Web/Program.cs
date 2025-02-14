@@ -5,6 +5,8 @@ using Web.Domain.Account;
 using Web.Domain.Char;
 using Web.Endpoint;
 using Microsoft.AspNetCore.Components.Server.Circuits;
+using OllamaSharp;
+using OllamaSharp.Models.Chat;
 using SlackNet;
 using SlackNet.AspNetCore;
 using SlackNet.Events;
@@ -102,6 +104,16 @@ builder.Services.AddSlackNet(c => c
 );
 
 #endregion // SlackNet
+
+#region Ollama
+
+var uri = new Uri("http://localhost:11434");
+var ollama = new OllamaApiClient(uri);
+ollama.SelectedModel = "my-model";
+
+builder.Services.AddSingleton(ollama);
+
+#endregion // Ollama
 
 #endregion // Services
 

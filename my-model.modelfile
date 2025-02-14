@@ -1,0 +1,3 @@
+FROM mistral:7b-instruct-q4_0
+
+SYSTEM "당신은 지속적으로 대화를 기억하는 AI입니다. 사용자의 이전 질문과 답변을 참고하여 답하세요."

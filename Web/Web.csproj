@@ -38,6 +38,12 @@
     </ItemGroup>
 
     <ItemGroup>
+        <None Include="Prompts\**\*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
         <None Include="wwwroot\boot.js" />
     </ItemGroup>
 

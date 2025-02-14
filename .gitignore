@@ -412,3 +412,8 @@ tools/LocalServerManager/dist
 
 # local.json
 appsettings.local*.json
+
+# Prompts
+/Web/Prompts/*.json
+
+conversation_history.json
