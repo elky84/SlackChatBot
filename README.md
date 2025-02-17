@@ -50,5 +50,5 @@ public class SlackBotService(ISlackApiClient slack, ILogger<SlackBotService> log
 
 # ollama 모델 생성
 ```bash
-ollama create my-model -f ollama-modelfile
+ollama create my-model -f my-model.modelfile
 ```
