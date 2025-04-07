@@ -94,6 +94,8 @@ services.AddScoped<CircuitHandler, CustomCircuitHandler>();
 
 #region SlackNet
 
+Console.WriteLine($"Loaded AppToken: {slackSettings.AppLevelToken} ApiToken: {slackSettings.ApiToken}");
+
 builder.Services.AddSlackNet(c => c
     // Configure the tokens used to authenticate with Slack
     .UseApiToken(slackSettings.ApiToken) // This gets used by the API client
