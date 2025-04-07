@@ -34,6 +34,7 @@ var slackSettings = builder.Configuration.GetSection("Slack").Get<SlackSettings>
 var chatGptSettings = builder.Configuration.GetSection("ChatGPT").Get<ChatGptSettings>()!;
 var huggingFaceSettings = builder.Configuration.GetSection("HuggingFace").Get<HuggingFaceSettings>()!;
 var claudeSettings = builder.Configuration.GetSection("Claude").Get<ClaudeSettings>()!;
+var ollamaSettings = builder.Configuration.GetSection("Ollama").Get<OllamaSettings>()!;
 
 builder.Services.AddHealthChecks();
 
@@ -83,6 +84,7 @@ if(slackBotConfig != null)
 services.AddSingleton(chatGptSettings);
 services.AddSingleton(huggingFaceSettings);
 services.AddSingleton(claudeSettings);
+services.AddSingleton(ollamaSettings);
 
 services.AddAntDesign().AddHttpContextAccessor();
 services.AddHttpClientInterceptor();
@@ -107,9 +109,9 @@ builder.Services.AddSlackNet(c => c
 
 #region Ollama
 
-var uri = new Uri("http://localhost:11434");
+var uri = new Uri(ollamaSettings.Uri);
 var ollama = new OllamaApiClient(uri);
-ollama.SelectedModel = "my-model";
+ollama.SelectedModel = ollamaSettings.SelectedModel;
 
 builder.Services.AddSingleton(ollama);
 
