@@ -35,12 +35,15 @@ public class SlackBotService : IEventHandler<MessageEvent>
         LoadConversationHistory();
 
         // 기본 프롬프트 추가
-        var promptsPath = Path.Combine(Directory.GetCurrentDirectory(), "Prompts");
-        var files = Directory.GetFiles(promptsPath);
-        foreach (var file in files)
+        if (_conversationHistory.Count == 0)
         {
-            var content = System.IO.File.ReadAllText(file);
-            _conversationHistory.Add(new OllamaSharp.Models.Chat.Message(ChatRole.User, content));
+            var promptsPath = Path.Combine(Directory.GetCurrentDirectory(), "Prompts");
+            var files = Directory.GetFiles(promptsPath);
+            foreach (var file in files)
+            {
+                var content = File.ReadAllText(file);
+                _conversationHistory.Add(new OllamaSharp.Models.Chat.Message(ChatRole.User, content));
+            }
         }
     }
     
@@ -52,7 +55,7 @@ public class SlackBotService : IEventHandler<MessageEvent>
         if (!slackEvent.Text.Contains(SlackBotConfig.Name))
             return;
         
-        var message = slackEvent.Text.Replace(SlackBotConfig.Name, string.Empty);
+        var message = slackEvent.Text.Replace(SlackBotConfig.Call, string.Empty);
         
         var keyValuePair = SlackBotConfig.Keywords.FirstOrDefault(x => slackEvent.Text.Contains(x.Key, StringComparison.OrdinalIgnoreCase));
         if(!string.IsNullOrEmpty(keyValuePair.Key))
