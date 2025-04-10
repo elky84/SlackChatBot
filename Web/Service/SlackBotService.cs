@@ -52,7 +52,7 @@ public class SlackBotService : IEventHandler<MessageEvent>
         if (string.IsNullOrEmpty(slackEvent.Text) || !string.IsNullOrEmpty(slackEvent.BotId))
             return;
 
-        if (!slackEvent.Text.Contains(SlackBotConfig.Name))
+        if (!slackEvent.Text.Contains(SlackBotConfig.Call))
             return;
         
         var message = slackEvent.Text.Replace(SlackBotConfig.Call, string.Empty);
