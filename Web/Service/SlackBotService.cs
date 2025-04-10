@@ -15,7 +15,8 @@ namespace Web.Service;
 public class SlackBotService : IEventHandler<MessageEvent>
 {
     private readonly ILogger _log;
-    private readonly string _historyFilePath = Path.Combine(Directory.GetCurrentDirectory(), "conversation_history.json");
+    
+    private readonly string _historyFilePath = Path.Combine(Directory.GetCurrentDirectory(), "history", "conversation_history.json");
 
     private ISlackApiClient SlackApiClient { get; init; }
     private OllamaApiClient OllamaApiClient { get; init; }
