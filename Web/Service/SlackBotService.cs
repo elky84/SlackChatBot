@@ -15,6 +15,8 @@ namespace Web.Service;
 public class SlackBotService : IEventHandler<MessageEvent>
 {
     private readonly ILogger _log;
+
+    private readonly string _historyDirectory = Path.Combine(Directory.GetCurrentDirectory(), "history");
     
     private readonly string _historyFilePath = Path.Combine(Directory.GetCurrentDirectory(), "history", "conversation_history.json");
 
@@ -123,6 +125,11 @@ public class SlackBotService : IEventHandler<MessageEvent>
     {
         try
         {
+            if (!Directory.Exists(_historyDirectory))
+            {
+                Directory.CreateDirectory(_historyDirectory);
+            }
+            
             var json = JsonSerializer.Serialize(_conversationHistory, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(_historyFilePath, json);
             _log.LogInformation("대화 기록이 저장되었습니다.");
